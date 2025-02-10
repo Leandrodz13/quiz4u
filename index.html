@@ -11,6 +11,7 @@
             background-color: white;
             transition: background-color 0.5s, color 0.5s;
             overflow: hidden;
+            position: relative; /* Para permitir que los corazones se coloquen en una capa inferior */
         }
         .quiz-container, .shop-container, .processing-container {
             margin-top: 50px;
@@ -47,6 +48,9 @@
             background-color: #28a745;
             color: white;
             transition: 0.3s;
+            position: absolute;
+            right: 10%; /* Mueve el botón al lado derecho */
+            bottom: 20px;
         }
         #nextBtn:hover {
             background-color: #218838;
@@ -60,6 +64,7 @@
             color: red;
             font-size: 24px;
             animation: float 5s linear infinite;
+            z-index: -1; /* Coloca los corazones en una capa inferior */
         }
         @keyframes float {
             0% { transform: translateY(0) scale(1); opacity: 1; }
@@ -134,7 +139,7 @@
             }
         }
 
-        function moveNoButton() {
+        function moveNoButton(event) {
             const button = document.getElementById("noBtn");
             const x = event.clientX - button.offsetWidth / 2;
             const y = event.clientY - button.offsetHeight / 2;
