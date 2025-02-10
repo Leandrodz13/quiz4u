@@ -50,7 +50,7 @@
             transition: 0.3s;
             position: absolute;
             right: 10%; /* Mueve el botón al lado derecho */
-            bottom: 20%; /* Mueve el botón un poco más abajo */
+            bottom: 10%; /* Asegura que el botón esté un poco más abajo */
         }
         #nextBtn:hover {
             background-color: #218838;
@@ -94,10 +94,10 @@
     </div>
 
     <div class="processing-container" id="processing-container">
-    <p>Procesando su compra <span id="loading-dots">...</span></p>
-    <p id="purchase-status" class="hidden">Compra realizada con éxito, pago pendiente 💕</p>
-    <p id="love-message" class="hidden">Te amo ❤️</p>
-</div>
+        <p>Procesando su compra <span id="loading-dots">...</span></p>
+        <p id="purchase-status" class="hidden">Compra realizada con éxito, pago pendiente 💕</p>
+        <p id="love-message" class="hidden">Te amo ❤️</p>
+    </div>
 
     <script>
         const questions = [
@@ -180,6 +180,10 @@
             setTimeout(() => {
                 document.getElementById("purchase-status").classList.remove("hidden");
             }, 2000);
+
+            setTimeout(() => {
+                document.getElementById("love-message").classList.remove("hidden"); // Mostrar "Te amo ❤️"
+            }, 4000); // Asegura que el mensaje "Te amo ❤️" aparezca después de un poco de tiempo
         }
 
         loadQuestion();
