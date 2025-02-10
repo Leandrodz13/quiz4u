@@ -50,7 +50,7 @@
             transition: 0.3s;
             position: absolute;
             right: 10%; /* Mueve el botón al lado derecho */
-            bottom: 20px;
+            bottom: 10%; /* Mueve el botón un poco más abajo */
         }
         #nextBtn:hover {
             background-color: #218838;
@@ -135,7 +135,9 @@
             if (answer === questions[currentQuestion].correct) {
                 document.getElementById("nextBtn").style.display = "block";
             } else {
-                document.getElementById("error-message").textContent = "Nop, esta no es 🙈";
+                if (currentQuestion < 3) { // Solo muestra el mensaje de error hasta la tercera pregunta
+                    document.getElementById("error-message").textContent = "Nop, esta no es 🙈";
+                }
             }
         }
 
