@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Cuánto me conoces? 💭</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: white;
+            transition: background-color 0.5s, color 0.5s;
+            overflow: hidden;
+        }
+        .quiz-container, .shop-container, .processing-container {
+            margin-top: 50px;
+        }
+        .hidden {
+            display: none;
+        }
+        .options button, #purchaseBtn {
+            margin: 10px;
+            padding: 15px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            background-color: #007BFF;
+            color: white;
+            transition: 0.3s;
+        }
+        .options button:hover, #purchaseBtn:hover {
+            background-color: #0056b3;
+        }
+        #noBtn {
+            position: absolute;
+            transition: transform 0.3s;
+        }
+        #nextBtn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 18px;
+            cursor: pointer;
+            display: none;
+            border: none;
+            border-radius: 10px;
+            background-color: #28a745;
+            color: white;
+            transition: 0.3s;
+        }
+        #nextBtn:hover {
+            background-color: #218838;
+        }
+        .romantic {
+            background-color: pink;
+            background-image: url('https://www.transparenttextures.com/patterns/hearts.png');
+        }
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 24px;
+            animation: float 5s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            50% { transform: translateY(-100px) scale(1.2); }
+            100% { transform: translateY(-200px) scale(0.8); opacity: 0; }
+        }
+        .shop-container, .processing-container {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1 id="question-title">¿Cuánto me conoces? 🤔</h1>
+        <p id="question-text"></p>
+        <div class="options" id="options-container"></div>
+        <p id="error-message" style="color: red; font-weight: bold;"></p>
+        <button id="nextBtn" onclick="nextQuestion()">Siguiente</button>
+    </div>
+
+    <div class="shop-container">
+        <h1>Entonces vamos a hacer una pequeña compra... 🛒</h1>
+        <p>Item: <strong>San Valentín juntitos 💖</strong></p>
+        <p>Cantidad: ∞</p>
+        <p>Precio: <strong>Muchos besos 😘</strong></p>
+        <button id="purchaseBtn" onclick="processPurchase()">Realizar compra</button>
+    </div>
+
+    <div class="processing-container" id="processing-container">
+        <p>Procesando su compra <span id="loading-dots">...</span></p>
+        <p id="purchase-status" class="hidden">Compra realizada con éxito, pago pendiente 💕</p>
+    </div>
+
+    <script>
+        const questions = [
+            { text: "¿Cuál es mi color favorito? 🎨", options: ["Rojo", "Azul", "Verde"], correct: "Verde" },
+            { text: "¿Cuál es mi serie favorita? 📺", options: ["Suits", "The Office", "Brooklyn Nine-Nine"], correct: "The Office" },
+            { text: "¿Cuál es mi deporte favorito? 🏀", options: ["Fútbol", "Basquetball", "Handball"], correct: "Basquetball" },
+            { text: "¿Tú me quiereees? ❤️", options: ["Sí", "No"], correct: "Sí" },
+            { text: "¿De veritaaas? 😳", options: ["Sí", "No"], correct: "Sí" },
+            { text: "¿De veritas de veritaaaas? 😍", options: ["Sí", "No"], correct: "Sí" },
+            { text: "Entoooonces... ¿Quieres ser mi San Valentín? 💘", options: ["Sí", "No"], correct: "Sí" }
+        ];
+
+        let currentQuestion = 0;
+
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById("question-text").textContent = question.text;
+            const optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+            document.getElementById("error-message").textContent = "";
+            document.getElementById("nextBtn").style.display = "none";
+
+            question.options.forEach(option => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.onclick = () => checkAnswer(option, button);
+                if (option === "No" && currentQuestion >= 3) {
+                    button.id = "noBtn";
+                    button.onclick = moveNoButton;
+                }
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(answer, button) {
+            if (answer === questions[currentQuestion].correct) {
+                document.getElementById("nextBtn").style.display = "block";
+            } else {
+                document.getElementById("error-message").textContent = "Nop, esta no es 🙈";
+            }
+        }
+
+        function moveNoButton() {
+            const button = document.getElementById("noBtn");
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            button.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion >= questions.length) {
+                document.querySelector(".quiz-container").style.display = "none";
+                document.querySelector(".shop-container").style.display = "block";
+            } else {
+                if (currentQuestion >= 3) {
+                    document.body.classList.add("romantic");
+                }
+                loadQuestion();
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
