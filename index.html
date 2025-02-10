@@ -120,7 +120,7 @@
                 button.onclick = () => checkAnswer(option, button);
                 if (option === "No" && currentQuestion >= 3) {
                     button.id = "noBtn";
-                    button.onclick = moveNoButton;
+                    button.onmouseover = moveNoButton;
                 }
                 optionsContainer.appendChild(button);
             });
@@ -136,8 +136,8 @@
 
         function moveNoButton() {
             const button = document.getElementById("noBtn");
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 100);
+            const x = event.clientX - button.offsetWidth / 2;
+            const y = event.clientY - button.offsetHeight / 2;
             button.style.transform = `translate(${x}px, ${y}px)`;
         }
 
@@ -149,9 +149,29 @@
             } else {
                 if (currentQuestion >= 3) {
                     document.body.classList.add("romantic");
+                    createHearts(); // Crea los corazones flotantes desde la pregunta 4
                 }
                 loadQuestion();
             }
+        }
+
+        function createHearts() {
+            for (let i = 0; i < 5; i++) {
+                const heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.textContent = "💖";
+                heart.style.left = `${Math.random() * window.innerWidth}px`;
+                heart.style.animationDelay = `${Math.random() * 5}s`;
+                document.body.appendChild(heart);
+            }
+        }
+
+        function processPurchase() {
+            document.getElementById("purchaseBtn").style.display = "none";
+            document.getElementById("processing-container").style.display = "block";
+            setTimeout(() => {
+                document.getElementById("purchase-status").classList.remove("hidden");
+            }, 2000);
         }
 
         loadQuestion();
